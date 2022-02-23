@@ -1,18 +1,23 @@
 import type { NextPage } from 'next'
 import Link from 'next/link';
+import Card from './components/Card';
 export async function getStaticProps(){ 
   const res=await fetch('http://localhost:3000/api/hello');
   const data =await res.json();
-
+  const res2=await fetch('http://localhost:3000/api/users');
+  const users =await res2.json();
   return {
     props:{
-      people:data
+      people:data,
+      items:users
     }
   }
 }
-const Prova: NextPage<{people : any}> = (props) => {
+const Prova: NextPage<{people : any,items:any}> = (props) => {
   return (
     <div>
+
+<Card items={props.items}></Card>
 
      {props.people.map((el:any) => ( 
      
