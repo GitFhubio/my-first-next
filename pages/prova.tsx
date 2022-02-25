@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import Link from 'next/link';
+import router from 'next/router';
 import Card from './components/Card';
 export async function getStaticProps(){ 
   const res=await fetch('http://localhost:3000/api/hello');
@@ -14,10 +15,34 @@ export async function getStaticProps(){
   }
 }
 const Prova: NextPage<{people : any,items:any}> = (props) => {
+	const goto =(id:any,action:any)=>{
+		switch (action) {
+			case "edit":
+				router.push(`/users/edit/${id}`)
+				break;
+				case "view":
+					router.push(`/users/view/${id}`)
+					break;
+					case "delete":
+						let data={id:id,action:"delete"};
+						fetch('http://localhost:3000/api/users', {
+							method: 'POST',
+							headers: {
+							  'Content-Type': 'application/json',
+							},
+							body: JSON.stringify(data),
+						  })
+						  router.push(`/prova`)
+						// props.items= props.items.filter((el:any)=>el.id != id)
+						break;
+			default:
+				break;
+		}
+	}
   return (
     <div>
 
-<Card items={props.items}></Card>
+<Card items={props.items} onMyClickHandler={goto}></Card>
 
      {props.people.map((el:any) => ( 
      

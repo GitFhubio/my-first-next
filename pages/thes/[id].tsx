@@ -11,24 +11,28 @@ export async function getServerSideProps(context : any){  //getServerSideProps v
    let final=[];
    for (let index = 0; index < 2; index++) {
      final.push({
+       id :index+1,
       taste:mydata[index]["taste"],
       quantity:mydata[index]["quantity"]
      })
      
    }
+  
+   let myob = final.filter((el:any)=>el.id == context.params.id );
   return {
     props:{
-      items:final
+      item:myob
     }
   }
 }
 
-const Person: NextPage<{items : any}> = (props) => {
+
+const Person: NextPage<{item : any}> = (props) => {
   // const router=useRouter();
   return (
     
     <div>
-         {props.items[0].taste}
+         {props.item[0].id}
      <p>HO CATTURATO L'ID</p>
     </div>
   )
